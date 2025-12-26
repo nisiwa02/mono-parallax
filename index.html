@@ -1,0 +1,29 @@
+<!doctype html><html><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>IMG_2692 mono</title>
+<style>
+body{margin:0;background:#000;color:#fff;font-family:system-ui,-apple-system,sans-serif}
+#top{position:fixed;left:10px;top:10px;z-index:10;display:flex;gap:10px;align-items:center}
+button{font-size:16px;padding:8px 10px}
+#meta{font-size:12px;opacity:.85}
+img{width:100vw;height:auto;display:block}
+</style></head><body>
+<div id="top"><button onclick="enable()">Enable motion</button><div id="meta">filters(spec): L=red/R=cyan | mono(DepthAnything)</div></div>
+<img id="view" src="views/v_015.jpg"/>
+<script>
+const nx=31; const yawMin=-6, yawMax=6; let yawSm=0; const alpha=0.15;
+function clamp(x,a,b){return Math.max(a,Math.min(b,x));}
+function idx(){const t=clamp((yawSm-yawMin)/(yawMax-yawMin),0,1); return Math.round(t*(nx-1));}
+function tick(){const i=idx(); document.getElementById("view").src="views/v_"+String(i).padStart(3,"0")+".jpg"; requestAnimationFrame(tick);}
+async function enable(){
+  if(typeof DeviceOrientationEvent?.requestPermission==="function"){
+    const r=await DeviceOrientationEvent.requestPermission(); if(r!=="granted") return;
+  }
+  window.addEventListener("deviceorientation",(e)=>{
+    const g=(e.gamma??0);
+    const y=clamp(g*0.1,yawMin,yawMax);
+    yawSm = yawSm + alpha*(y - yawSm);
+  },true);
+  tick();
+}
+</script></body></html>
