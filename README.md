@@ -1,2 +1,2 @@
 # mono-parallax
-mono-parallax of Ami Ozaki; 4th DIMENSIONAL MAP
+mono-parallax of Amii Ozaki; 4th DIMENSIONAL MAP
